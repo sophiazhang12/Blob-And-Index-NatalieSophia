@@ -34,7 +34,6 @@ public class Index {
     
     public static void removeBlob (String fileName) throws IOException, NoSuchAlgorithmException {
         String SHAstring = blobs.get(fileName).getShaString();
-        Files.delete(Paths.get("/Users/natalielim/Library/CloudStorage/OneDrive-Harvard-WestlakeSchool/h topics/Prerequisites-Blob-and-Index/objects/" + SHAstring));
         blobs.remove(fileName);
         writeHashMap();
     }
