@@ -33,7 +33,7 @@ public class Index {
     }
     
     public static void removeBlob (String fileName) throws IOException, NoSuchAlgorithmException {
-        String SHAstring = blobs.get(fileName).getShaString();
+        //String SHAstring = blobs.get(fileName).getShaString();
         blobs.remove(fileName);
         writeHashMap();
     }

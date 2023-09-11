@@ -10,7 +10,7 @@ import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static java.nio.file.StandardCopyOption.*;
+//import static java.nio.file.StandardCopyOption.*;
 
 public class Blob {
     private String translatedToSHA1;
@@ -47,7 +47,7 @@ public class Blob {
         PrintWriter pw = new PrintWriter (file);
         pw.print(fileContents);
         pw.close();
-        Files.move(Paths.get("/Users/natalielim/Library/CloudStorage/OneDrive-Harvard-WestlakeSchool/h topics/Prerequisites-Blob-and-Index/" + fileName),
-           (Paths.get("/Users/natalielim/Library/CloudStorage/OneDrive-Harvard-WestlakeSchool/h topics/Prerequisites-Blob-and-Index/objects/" + fileName)) );
+        Files.move(Paths.get("/Users/zhang/Desktop/HonorsTopics/Blob-And-Index-NatalieSophia/" + fileName),
+           (Paths.get("/Users/zhang/Desktop/HonorsTopics/Blob-And-Index-NatalieSophia/objects/" + fileName)));
     }    
 }
