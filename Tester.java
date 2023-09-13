@@ -4,7 +4,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class Tester {
     public static void main (String [] args) throws FileNotFoundException, NoSuchAlgorithmException, IOException {
-        Index.init();
+        Index index = new Index ();
+        index.init();
         Index.addBlob("example1");
         Index.addBlob("example2");
         Index.addBlob("example3");

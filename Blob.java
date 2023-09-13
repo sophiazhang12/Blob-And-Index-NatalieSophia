@@ -43,6 +43,8 @@ public class Blob {
     
     public void writeFile () throws IOException {
         
+        //girl idk what kind of errors ur code was throwing, so i rewrote the 'create objects folder' stuff
+        //it works the same way as the old way (i think), but should run on all computers now.
         File dir = new File ("objects");
         dir.mkdirs();
         File file = new File ("objects/" + getShaString()); //file = file you write to

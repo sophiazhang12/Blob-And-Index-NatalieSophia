@@ -14,7 +14,7 @@ public class Index {
     public Index () {
     }
     //initializes a project by creating an index file and a n obj folder
-    public static void init() throws IOException {
+    public void init() throws IOException {
         blobs = new HashMap<String, Blob>();
         //creating the objects
         File theDir = new File("objects");

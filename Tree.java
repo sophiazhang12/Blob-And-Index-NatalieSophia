@@ -1,63 +1,85 @@
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
+import java.util.ArrayList;
 
 public class Tree {
-    File t;
+    ArrayList <String> t; //list of all the entries of the tree
 
     public Tree ()
     {
-        t = new File ("Tree");
+        t = new ArrayList <String> ();
     }
 
-    public void add (String entry) throws FileNotFoundException
+    //gets the sha part out of a tree entry
+    public String shaPart (String entry)
     {
-        PrintWriter pw = new PrintWriter (t);
-        pw.println(entry);
+        int i = entry.indexOf (":") + 2; //index where the sha1 part starts
+        String sha1 = entry.substring (i); //sha1 to the end
+        if (sha1.indexOf (":") != -1) //if there's another part after the sha1
+        {
+            int b = sha1.indexOf (":") - 1; //this will be the end of the sha1 (not before the : and the space)
+            sha1 = sha1.substring (0,b);
+        }
+
+        return sha1;
+    }
+
+    //gets the fileName part of the entry; if a tree (no fileName), returns empty
+    public String namePart (String entry)
+    {
+        int i = entry.indexOf (":") + 2; //index where the sha1 part starts
+        String sha1 = entry.substring (i); //sha1 to the end
+    
+        if (sha1.indexOf (":") != -1) //if there's another part after the sha1
+        {
+            i = sha1.indexOf (":") + 2; //where the fileName part starts
+            String n = sha1.substring (i); //just the fileName part
+            return n;
+        }
+
+        return "";
+    }
+
+    public void add (String entry) throws IOException
+    {
+        t.add (entry);
+
+        File treeFile = new File ("TreeIndex"); //actualFile = file you write to
+        treeFile.createNewFile();
+
+        //print entry into the tree
+        PrintWriter pw = new PrintWriter (treeFile);
+        pw.println(t); //prints out everything in arrayList to the tree index
         pw.close();
-        
-        //natalie idk what these lines of code mean, i copied it from ur blob.java
-        Files.move(Paths.get("/Users/zhang/Desktop/HonorsTopics/Blob-And-Index-NatalieSophia/" + entry),
-           (Paths.get("/Users/zhang/Desktop/HonorsTopics/Blob-And-Index-NatalieSophia/objects/" + entry)));
-
-        File dir = new File ("objects");
-        dir.mkdirs();
-
-        File actualFile = new File ("objects/" + sha1); //actualFile = file you write to
-        actualFile.createNewFile();
-
     }
 
     //really slow way of doing things
     //basically copies the tree file into a stringbuilder, sans the line we want to remove
     //then deletes og tree file, writes stringbuilder value into new tree file
-    public void remove (String sha) throws IOException
+    public void remove (String str) throws Exception
     {
-        BufferedReader reader = new BufferedReader (new FileReader (t));
-        StringBuilder sb = new StringBuilder ("");
-
-        while (reader.ready())
+        int length = t.size();
+        for (int i = 0; i < length; i++)
         {
-            String line = reader.readLine();
-            if (!line.contains (sha))
+            String shPart = shaPart (t.get(i));
+            String nPart = namePart (t.get(i));
+            if (shPart.equals (str))
             {
-                sb.append (line + "\n");
+                //then it is a tree, because that confirms the input was a sha1 value
+                t.remove (t.get(i));
             }
+            if (nPart.equals(str))
+            {
+                //then it is a blob, because that confirms that the input was a fileName
+                t.remove (t.get(i));
+            } 
+            
         }
-
-        t.delete();
-        
-        t = new File ("Tree");
-
-        PrintWriter pw = new PrintWriter (t);
-        pw.print (sb);
-
+        PrintWriter pw = new PrintWriter ("TreeIndex");
+        pw.println (t);
         pw.close();
-        reader.close();
+
     }
 
 }
