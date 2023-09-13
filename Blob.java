@@ -42,12 +42,18 @@ public class Blob {
     }
     
     public void writeFile () throws IOException {
-        String fileName = translatedToSHA1;
-        File file = new File(fileName);
+        
+        File dir = new File ("objects");
+        dir.mkdirs();
+        File file = new File ("objects/" + getShaString()); //file = file you write to
+        file.createNewFile();
+
         PrintWriter pw = new PrintWriter (file);
         pw.print(fileContents);
         pw.close();
-        Files.move(Paths.get("/Users/zhang/Desktop/HonorsTopics/Blob-And-Index-NatalieSophia/" + fileName),
-           (Paths.get("/Users/zhang/Desktop/HonorsTopics/Blob-And-Index-NatalieSophia/objects/" + fileName)));
+        // Files.move(Paths.get("/Users/zhang/Desktop/HonorsTopics/Blob-And-Index-NatalieSophia/" + fileName),
+        //    (Paths.get("/Users/zhang/Desktop/HonorsTopics/Blob-And-Index-NatalieSophia/objects/" + fileName)));
+        
+    
     }    
 }
