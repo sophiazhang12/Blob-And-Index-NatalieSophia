@@ -43,23 +43,28 @@ public class Tree {
 
     public void add (String entry) throws IOException
     {
-        t.add (entry);
+        if (!t.contains(entry)) //no duplicates!
+        {
+            t.add (entry);
+        }
 
         File treeFile = new File ("TreeIndex"); //actualFile = file you write to
         treeFile.createNewFile();
 
         //print entry into the tree
         PrintWriter pw = new PrintWriter (treeFile);
-        pw.println(t); //prints out everything in arrayList to the tree index
+        //prints out everything in arrayList to the tree index
+        for (int i = 0; i < t.size(); i++)
+        {
+            pw.println (t.get(i));
+        }
         pw.close();
     }
 
-    //really slow way of doing things
-    //basically copies the tree file into a stringbuilder, sans the line we want to remove
-    //then deletes og tree file, writes stringbuilder value into new tree file
-    public void remove (String str) throws Exception
+    
+    public void remove (String str) throws IOException
     {
-        int length = t.size();
+        int length = t.size() - 1;
         for (int i = 0; i < length; i++)
         {
             String shPart = shaPart (t.get(i));
@@ -77,7 +82,10 @@ public class Tree {
             
         }
         PrintWriter pw = new PrintWriter ("TreeIndex");
-        pw.println (t);
+        for (int i = 0; i < t.size(); i++)
+        {
+            pw.println (t.get(i));
+        }
         pw.close();
 
     }
