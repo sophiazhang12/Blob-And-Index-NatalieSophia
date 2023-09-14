@@ -67,7 +67,7 @@ public class Tree {
     
     public void remove (String str) throws IOException
     {
-        int length = t.size() - 1;
+        int length = t.size();
         for (int i = 0; i < length; i++)
         {
             String shPart = shaPart (t.get(i));
