@@ -26,6 +26,7 @@ public class Tester {
         tTest.remove ("2a75a7448ce60b034b2e43480229e1b628e52af3");
         //add/remove tree works
         tTest.putInObjects();
+        //nice
         
     }
 }

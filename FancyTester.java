@@ -55,22 +55,23 @@ public class FancyTester {
         try {
 
             // Manually create the files and folders before the 'testAddFile'
-            // MyGitProject myGitClassInstance = new MyGitProject();
-            // myGitClassInstance.init();
+             Blob myBlob = new Blob("example3");
+            Index blobIndex = new Index();
+            blobIndex.init();
 
-            // TestHelper.runTestSuiteMethods("testCreateBlob", file1.getName());
+            FancyTester.runTestSuiteMethods("testCreateBlob", myBlob); //????
 
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
         }
 
-        // Check blob exists in the objects folder
-        // File file_junit1 = new File("objects/" + file1.methodToGetSha1());
-        // assertTrue("Blob file to add not found", file_junit1.exists());
+        //check if the blob obj exists in the objects folder
+         File file_junit1 = new File("objects/" + myBlob.getShaString());
+         assertTrue("Blob file to add not found", file_junit1.exists());
 
-        // // Read file contents
-        // String indexFileContents = MyUtilityClass.readAFileToAString("objects/" + file1.methodToGetSha1());
-        // assertEquals("File contents of Blob don't match file contents pre-blob creation", indexFileContents,
-        //         file1.getContents());
+        // Read file contents
+        String indexFileContents = MyUtilityClass.readAFileToAString("objects/" + file1.methodToGetSha1());
+        assertEquals("File contents of Blob don't match file contents pre-blob creation", indexFileContents,
+                file1.getContents());
     }
 }
