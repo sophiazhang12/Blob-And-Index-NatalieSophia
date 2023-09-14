@@ -1,6 +1,9 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class Tree {
@@ -88,6 +91,38 @@ public class Tree {
         }
         pw.close();
 
+    }
+
+    //puts tree into the objects folder by taking the hash and stuff
+    public void putInObjects () throws IOException
+    {
+        StringBuilder sb = new StringBuilder ("");
+        for (int i = 0; i < t.size() - 1; i++)
+        {
+            sb.append ("" + t.get(i));
+        }
+
+        String sha1 = "";
+
+        //my algorithm for getting the sha1, because yours didn't really work for this format
+        try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-1");
+	        digest.reset();
+	        digest.update(sb.toString().getBytes("utf8"));
+	        sha1 = String.format("%040x", new BigInteger(1, digest.digest()));
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+        File file = new File ("objects/" + sha1); //file = file you write to
+        file.createNewFile();
+
+        PrintWriter pw = new PrintWriter (file);
+        for (int i = 0; i < t.size(); i++)
+        {
+            pw.println (t.get(i));
+        }
+        pw.close();
     }
 
 }

@@ -1,14 +1,11 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 //import static java.nio.file.StandardCopyOption.*;
 

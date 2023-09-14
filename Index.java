@@ -2,12 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.nio.file.Files;
 
 public class Index {
     private static HashMap<String, Blob> blobs;
