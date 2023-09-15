@@ -52,7 +52,11 @@ public class Blob {
         pw.close();
         // Files.move(Paths.get("/Users/zhang/Desktop/HonorsTopics/Blob-And-Index-NatalieSophia/" + fileName),
         //    (Paths.get("/Users/zhang/Desktop/HonorsTopics/Blob-And-Index-NatalieSophia/objects/" + fileName)));
-        
+
+    }  
     
-    }    
+    public String getFileContents ()
+    {
+        return fileContents;
+    }
 }
