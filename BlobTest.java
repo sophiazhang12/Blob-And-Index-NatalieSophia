@@ -22,6 +22,7 @@ public class BlobTest {
         String otherFileContents = TesterHelper.readAFileToAString(bob.getOgName());
 
         assertEquals("Does not work....", s, otherFileContents);
+        //if both file contents do not match (before and after), returns "does not work....."
     }
 
     @Test
@@ -33,6 +34,7 @@ public class BlobTest {
         String otherSha = TesterHelper.getSha(bob.getOgName());
 
         assertEquals("Does not work....", s, otherSha);
+        //if both sha versions do not match, returns "does not work....."
     }
 
     @Test
@@ -51,9 +53,11 @@ public class BlobTest {
         bob.writeFile();
 
         File file_junit1 = new File("objects/" + bob.getShaString());
-        assertTrue("Blob file to add not found", file_junit1.exists());
+        assertTrue("Objects folder does not exist", file_junit1.exists());
+        //if objects folder did not exist, return "blob file to add not found"
 
         File index_junit = new File ("index");
-        assertTrue("Blob file to add not found", index_junit.exists());
+        assertTrue("Index folder does not exist", index_junit.exists());
+        //if index file does not exist, return "index folder does not exist"
     }
 }

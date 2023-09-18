@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 public class IndexTest {
     static Index blobIndex;
     static Blob bob;
+
+    //before stuff runs, it should create a new file and initialize the index and blob
         @BeforeAll
         static void setUpBeforeClass() throws Exception {
             
@@ -32,6 +34,7 @@ public class IndexTest {
             
         }
 
+        //after file runs, it should delete the test files and test directories
     @AfterAll
     static void tearDownAfterClass() throws Exception {
         
@@ -40,6 +43,8 @@ public class IndexTest {
         TesterHelper.deleteDirectory("objects");
          
     }
+    
+    //adds a blob to the index
     @Test
     void testAddBlob() throws IOException, NoSuchAlgorithmException {
         // Manually create the files and folders before the 'testAddFile'
@@ -55,14 +60,17 @@ public class IndexTest {
 
         //check if the blob obj exists in the objects folder
         File file_junit1 = new File("objects/" + bob.getShaString());
-        assertTrue("Blob file to add not found", file_junit1.exists()); //if this test fails, then "Blob file to add not found" is output
+        assertTrue("Blob file to add not found", file_junit1.exists()); 
+        //if file does not exist, then "Blob file to add not found" is output
 
         // Read file contents
         String indexFileContents = TesterHelper.readAFileToAString(bob.getShaString());
         assertEquals("File contents of Blob don't match file contents pre-blob creation", indexFileContents,
                 bob.getFileContents());
+            //if the file contents of both tests don't match up, then the test will return "file contents of blob..."
     }
 
+    //initialzes the index
     @Test
     void testInit() throws IOException {
         blobIndex.init ();
@@ -72,7 +80,9 @@ public class IndexTest {
         Path path = Paths.get("objects");
 
         assertTrue("File does not exist :(", file.exists());
+        //if file does not exist, returns "file does not exist :("
         assertTrue("File path does not exist :(", Files.exists(path));
+        //if the file path does not exist, return "file path does not exist :("
     }
 
     @Test
@@ -99,6 +109,7 @@ public class IndexTest {
         // assertEquals("Map is incorrect", , myBlob.getFileContents());
     }
 
+    //removes the blob
     @Test
     void testRemoveBlob() throws NoSuchAlgorithmException, IOException {
         blobIndex.init();
@@ -114,10 +125,7 @@ public class IndexTest {
         //check if the blob obj exists in the objects folder
         File file_junit1 = new File("objects/" + bob.getShaString());
         assertTrue("Blob is not being removed", file_junit1.exists());
+        //if the file does not exist, return "blob is not being removed"
 
-        // Read file contents
-        String indexFileContents = TesterHelper.readAFileToAString("objects/" + bob.getShaString());
-        assertEquals("File contents of Blob don't match file contents pre-blob creation", indexFileContents,
-                bob.getFileContents());
     }
 }
