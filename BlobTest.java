@@ -13,18 +13,20 @@ import org.junit.jupiter.api.Test;
 
 public class BlobTest {
     
+    //returns the file contents and makes sure the file contents are returnining correctly
     @Test
     void testGetFileContents() throws IOException, NoSuchAlgorithmException {
         File f = new File ("example.txt");
         f.createNewFile();
         Blob bob = new Blob ("example.txt");
         String s = bob.getFileContents();
-        String otherFileContents = TesterHelper.readAFileToAString(bob.getOgName());
+        String otherFileContents = TesterHelper.readAFileToAString(TesterHelper.getSha(bob.getOgName()));
 
         assertEquals("Does not work....", s, otherFileContents);
         //if both file contents do not match (before and after), returns "does not work....."
     }
 
+    //tests if the sha1 string is being correctly generated
     @Test
     void testGetShaString() throws IOException, NoSuchAlgorithmException {
         File f = new File ("example.txt");
@@ -45,6 +47,7 @@ public class BlobTest {
         //but i know that this method works because the previous works
     }
 
+    //tests if creating the objects and index files work, as well as blobs a file
     @Test
     void testWriteFile() throws IOException, NoSuchAlgorithmException {
         File f = new File ("example.txt");
