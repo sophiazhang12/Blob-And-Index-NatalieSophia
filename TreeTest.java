@@ -4,33 +4,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.NoSuchAlgorithmException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class IndexTest {
-    static Index blobIndex;
+public class TreeTest {
+    static Tree tr;
     static Blob bob;
-
     //before stuff runs, it should create a new file and initialize the index and blob
         @BeforeAll
         static void setUpBeforeClass() throws Exception {
             
-            TesterHelper.writeStringToFile("junit_example.txt", "test file contents");
-            bob = new Blob ("junit_example.txt");
-            blobIndex = new Index ();
-            
             File dir = new File ("objects");
             dir.mkdirs();
-            File file = new File ("objects/" + bob.getShaString()); //file = file you write to
-            file.createNewFile();
-            
+            File file_junit1 = new File ("objects/" + "junit_example.txt"); //file = file you write to
+            file_junit1.createNewFile();
+
+            TesterHelper.writeStringToFile("junit_example.txt", "test file contents");
+            tr = new Tree ();
+            bob = new Blob ("junit_example.txt");
+    
             
         }
 
@@ -39,17 +36,16 @@ public class IndexTest {
     static void tearDownAfterClass() throws Exception {
         
         TesterHelper.deleteFile("junit_example.txt");
-        TesterHelper.deleteFile("index");
+        TesterHelper.deleteFile("testFile");
         TesterHelper.deleteDirectory("objects");
          
     }
-    
-    //adds a blob to the index
+
+    //tests if file is being correctly added
     @Test
-    void testAddBlob() throws IOException, NoSuchAlgorithmException {
-        // Manually create the files and folders before the 'testAddFile'
-        blobIndex.init();
-        Index.addBlob ("junit_example.txt");
+    void testAdd() throws IOException {
+        
+        tr.add ("junit_example.txt");
 
         try {
         //FancyTester.runTestSuiteMethods("testCreateBlob", myBlob);
@@ -59,7 +55,7 @@ public class IndexTest {
         }
 
         //check if the blob obj exists in the objects folder
-        File file_junit1 = new File("objects/" + bob.getShaString());
+        File file_junit1 = new File("objects/" + tr.shaPart("blob : cbaedccfded0c768295aae27c8e5b3a0025ef340 : junit_example.txt"));
         assertTrue("Blob file to add not found", file_junit1.exists()); 
         //if file does not exist, then "Blob file to add not found" is output
 
@@ -70,11 +66,23 @@ public class IndexTest {
             //if the file contents of both tests don't match up, then the test will return "file contents of blob..."
     }
 
-    //initialzes the index
+    //tests if can correctly get the name part from an entry...does not work???
     @Test
-    void testInit() throws IOException {
-        blobIndex.init ();
+    void testNamePart() {
+        String n = tr.namePart ("blob : cbaedccfded0c768295aae27c8e5b3a0025ef340 : junit_example.txt");
+        String nn = "junit_example.txt";
 
+        assertEquals("Name do not match up", n,
+                nn);
+                //if the two names are not equal, then somethign is wrong
+    }
+
+    //tests if the stuff is going into the objects folder correctly
+    @Test
+    void testPutInObjects() throws IOException {
+
+        tr.putInObjects();
+        
         // check if the file exists
         File file = new File("index");
         Path path = Paths.get("objects");
@@ -85,23 +93,28 @@ public class IndexTest {
         //if the file path does not exist, return "file path does not exist :("
     }
 
-    //removes the blob
+    //tests if removal is successful
     @Test
-    void testRemoveBlob() throws NoSuchAlgorithmException, IOException {
-        blobIndex.init();
-        blobIndex.removeBlob("junit_example.txt");
+    void testRemove() throws IOException {
 
-        try {
-        //FancyTester.runTestSuiteMethods("testRemoveBlob", myBlob);
+        File f = new File ("junit_example.txt");
 
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-        }
+        tr.add ("blob : cbaedccfded0c768295aae27c8e5b3a0025ef340 : junit_example.txt");
+        tr.remove ("junit_example.txt");
 
-        //check if the blob obj exists in the objects folder
-        File file_junit1 = new File("objects/" + bob.getShaString());
-        assertTrue("Blob is not being removed", file_junit1.exists());
-        //if the file does not exist, return "blob is not being removed"
+        assertTrue("Removal not successful", f.exists());
+
+    }
+
+    //tests if you can get the sha part of an entry; does not work?? bro this was working in my testerrrr
+    @Test
+    void testShaPart() {
+        String sh = tr.shaPart ("blob : cbaedccfded0c768295aae27c8e5b3a0025ef340 : junit_example.txt");
+        String shh = "cbaedccfded0c768295aae27c8e5b3a0025ef340";
+
+        assertEquals("Sha1 values do not match up", sh,
+                shh);
+                //if the two sha values are not equal, then somethign is wrong
 
     }
 }

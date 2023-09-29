@@ -73,4 +73,12 @@ public class TesterHelper {
         
     }
 
+    public static void main (String [] args)
+    {
+        Tree t = new Tree ();
+        //t.add ("blob : cbaedccfded0c768295aae27c8e5b3a0025ef340 : junit_example.txt");
+        System.out.println (t.shaPart ("blob : cbaedccfded0c768295aae27c8e5b3a0025ef340 : junit_example.txt"));
+
+    }
+
 }
